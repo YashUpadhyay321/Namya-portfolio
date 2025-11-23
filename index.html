@@ -1,0 +1,1139 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Namya Gandhi — Graphic & UI/UX Designer</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome for icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+
+  <!-- AOS (Animate On Scroll) -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
+  <style>
+    /* ================= Theme variables ================= */
+    :root {
+      --bg: #ffffff;
+      --panel-dark: #0f0f0f;
+      --muted: #8f8f8f;
+      --accent: #ffd600;
+      --shadow: rgba(0, 0, 0, 0.28);
+      --page-margin: 0;
+      --nav-height: 68px;
+      /* fallback; updated by JS at runtime */
+    }
+
+    /* ================= Page reset ================= */
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: linear-gradient(180deg, #e9e9ea 0%, #efefef 100%);
+      color: #222;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ================= Frame ================= */
+    .frame {
+      width: 100%;
+      max-width: none;
+      margin: 0 auto;
+      background: transparent;
+    }
+
+    /* ================= NAVBAR (NORMAL, NOT FIXED) ================= */
+    .site-bar {
+      width: 100%;
+      padding: 18px 0;
+      display: flex;
+      justify-content: center;
+      background: linear-gradient(90deg, #2b2b2b, #4b4b4b);
+      position: relative;
+      /* not fixed */
+      z-index: 60;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    }
+
+    .site-bar .bar-inner {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 18px;
+      color: #fff;
+      gap: 12px;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: .6px;
+      font-size: 1rem;
+    }
+
+    .navlinks {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .navlinks a {
+      color: #eee;
+      font-weight: 600;
+      font-size: .92rem;
+      padding: 6px;
+      position: relative;
+      transition: color .22s ease, transform .12s ease;
+    }
+
+    .navlinks a:hover {
+      transform: translateY(-1px);
+    }
+
+    .navlinks a.active {
+      color: var(--accent);
+    }
+
+    .navlinks a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 0;
+      height: 3px;
+      background: var(--accent);
+      transition: width .28s ease;
+      border-radius: 2px;
+    }
+
+    .navlinks a:hover::after {
+      width: 100%;
+    }
+
+    /* hamburger button */
+    .hamburger {
+      display: none;
+      background: transparent;
+      border: 0;
+      color: #fff;
+      font-size: 1.18rem;
+      padding: 8px 10px;
+      border-radius: 8px;
+    }
+
+    .hamburger:focus {
+      outline: 2px solid rgba(255, 214, 0, 0.18);
+      outline-offset: 2px;
+    }
+
+    /* Mobile slide menu */
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: min(92vw, 420px);
+      height: 100vh;
+      background: #fff;
+      box-shadow: -18px 0 40px rgba(0, 0, 0, 0.12);
+      z-index: 2000;
+      transition: right .36s cubic-bezier(.2, .9, .2, 1);
+      display: flex;
+      flex-direction: column;
+      padding: 28px;
+      gap: 18px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .mobile-menu.open {
+      right: 0;
+    }
+
+    .mobile-menu .close-btn {
+      align-self: flex-end;
+      background: transparent;
+      border: 0;
+      font-size: 1.2rem;
+      padding: 8px;
+    }
+
+    .mobile-menu nav {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .mobile-menu nav a {
+      color: #111;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 10px 6px;
+      border-radius: 6px;
+    }
+
+    .mobile-menu nav a:hover {
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    /* overlay behind mobile menu */
+    .menu-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.36);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .28s ease, visibility .28s ease;
+      z-index: 1500;
+    }
+
+    .menu-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* ================= HERO =================
+    hero min-height adjusts to nav height via CSS var and JS
+    =================================================*/
+    .hero {
+      display: flex;
+      /* min-height computed: 100vh minus nav height */
+      min-height: calc(100vh - var(--nav-height));
+      align-items: stretch;
+      position: relative;
+      overflow: hidden;
+      margin-top: 0;
+    }
+
+    .hero-left {
+      flex: 0 0 46%;
+      min-width: 320px;
+      background: linear-gradient(180deg, #0b0b0b 0%, #111 100%);
+      color: #fff;
+      padding: 96px 6% 64px 6%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .hero-left .dots {
+      position: absolute;
+      left: 36px;
+      top: 36px;
+      width: 120px;
+      height: 120px;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.12) 2px, transparent 2px);
+      background-size: 10px 10px;
+      opacity: 0.95;
+    }
+
+    .hero-left .eyebrow {
+      color: #bfbfbf;
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: .6px;
+    }
+
+    .hero-left .bigname {
+      font-size: 44px;
+      line-height: 1.02;
+      font-weight: 900;
+      margin: 0 0 12px;
+      letter-spacing: 1px;
+    }
+
+    .hero-left .role {
+      display: inline-block;
+      background: var(--accent);
+      color: #111;
+      padding: .48rem .85rem;
+      font-weight: 800;
+      border-radius: 3px;
+      margin-top: 8px;
+      letter-spacing: .6px;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, .18);
+    }
+
+    .hero-left p.intro {
+      color: #cfcfcf;
+      max-width: 520px;
+      margin-top: 18px;
+      line-height: 1.6;
+    }
+
+    .hero-left .cta {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .hero-right {
+      flex: 1 1 54%;
+      position: relative;
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f2f2f2;
+    }
+
+    .hero-photo {
+      position: absolute;
+      inset: 0;
+      background-image: url('namya.jpg');
+      background-size: cover;
+      background-position: center;
+      transition: transform .9s cubic-bezier(.2, .9, .2, 1);
+    }
+
+    .hero-photo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.0) 0%, rgba(0, 0, 0, 0.08) 100%);
+    }
+
+    /* ================= ABOUT ================= */
+    .about {
+      display: flex;
+      gap: 36px;
+      align-items: center;
+      padding: 88px 6%;
+      background: #efefef;
+      position: relative;
+    }
+
+    .about .left {
+      width: 36%;
+      min-width: 260px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about .back-block {
+      width: 220px;
+      height: 220px;
+      background: #232323;
+      position: absolute;
+      left: 8%;
+      top: 18%;
+      z-index: 1;
+    }
+
+    .about .portrait {
+      width: 220px;
+      height: 220px;
+      background-image: url('namya.jpg');
+      background-size: cover;
+      background-position: center;
+      z-index: 2;
+      border: 12px solid #fff;
+      box-shadow: 14px 14px 0 rgba(0, 0, 0, 0.06);
+      transform: translateX(12px);
+    }
+
+    .about .accent-circles {
+      position: absolute;
+      right: -6%;
+      top: 4%;
+      display: flex;
+      gap: 10px;
+      z-index: 3;
+    }
+
+    .about .accent-circles .a {
+      width: 14px;
+      height: 14px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, .12);
+    }
+
+    .about .text {
+      flex: 1;
+      padding-top: 14px;
+    }
+
+    .about .text h3 {
+      font-size: 28px;
+      font-weight: 900;
+      margin-bottom: 10px;
+      color: #111;
+    }
+
+    .about .text p {
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 760px;
+    }
+
+    .about .dot-grid {
+      width: 70px;
+      height: 64px;
+      margin-top: 26px;
+      background-image: radial-gradient(rgba(0, 0, 0, 0.06) 2px, transparent 2px);
+      background-size: 6px 6px;
+    }
+
+    .zigzag {
+      display: inline-block;
+      margin-left: 12px;
+      vertical-align: middle;
+      opacity: .85;
+    }
+
+    /* ================= WORK (portfolio) ================= */
+    .work {
+      padding: 88px 6%;
+      background: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .work .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .work .header h2 {
+      font-size: 32px;
+      font-weight: 900;
+    }
+
+    .work .header p {
+      color: var(--muted);
+    }
+
+    /* Carousel Styles */
+    #workCarousel {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .carousel-item {
+      text-align: center;
+      transition: transform 1s ease, opacity .8s ease-in-out;
+    }
+
+    .work-card {
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      cursor: default;
+      transition: all .4s ease;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, .1);
+    }
+
+    /* cursor removed interactive behaviour */
+    .work-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, .15);
+    }
+
+    .work-card img {
+      width: 100%;
+      height: 740px;
+      object-fit: cover;
+      transition: transform .6s ease;
+    }
+
+    .work-card:hover img {
+      transform: scale(1.08);
+    }
+
+    .work-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px;
+      background: linear-gradient(180deg, transparent 10%, rgba(0, 0, 0, 0.85));
+      color: #fff;
+      opacity: 1;
+      transition: opacity .4s ease;
+    }
+
+    /* keep info visible */
+    .work-info h5 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .work-info p {
+      font-size: .9rem;
+      margin-top: 6px;
+      color: #e6e6e6;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      padding: 12px;
+    }
+
+    .carousel-indicators [data-bs-target] {
+      background-color: var(--accent);
+    }
+
+    @media(max-width:768px) {
+      .work-card img {
+        height: 260px;
+      }
+    }
+
+    /* ================= CONTACT / FOOTER ================= */
+    .contact {
+      padding: 72px 6%;
+      background: #fafafa;
+      text-align: center;
+    }
+
+    .contact .cta {
+      margin-top: 12px;
+    }
+
+    footer.site-foot {
+      background: #0b0b0b;
+      color: #ddd;
+      text-align: center;
+      padding: 28px 6%;
+      position: relative;
+    }
+
+    footer .dots {
+      position: absolute;
+      left: 6%;
+      top: -30px;
+      width: 120px;
+      height: 120px;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.06) 2px, transparent 2px);
+      background-size: 10px 10px;
+      opacity: 0.9;
+    }
+
+    /* ================= RESPONSIVE ================= */
+    @media (max-width:1100px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .about {
+        padding: 64px 6%;
+        gap: 18px;
+        flex-direction: column-reverse;
+      }
+
+      .about .back-block,
+      .about .portrait {
+        transform: none;
+        left: auto;
+        top: auto;
+        position: relative;
+      }
+
+      .about .portrait {
+        border-width: 10px;
+        width: 260px;
+        height: 260px;
+      }
+
+      .hero-left {
+        flex-basis: 100%;
+        padding: 72px 6% 48px;
+      }
+
+      .hero-right {
+        flex-basis: 100%;
+        min-height: 320px;
+        display: block;
+      }
+
+      .hero-photo {
+        position: absolute;
+        height: 420px;
+        background-position: center;
+      }
+    }
+
+    /* Mobile-specific adjustments — reduces extra spacing and keeps header compact */
+    @media (max-width:780px) {
+      .navlinks {
+        display: none;
+      }
+
+      .hamburger {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .brand {
+        font-size: .98rem;
+      }
+
+      /* reduce site bar padding on small screens */
+      .site-bar {
+        padding: 10px 0;
+      }
+
+      .site-bar .bar-inner {
+        padding: 8px 12px;
+      }
+
+      /* smaller hero padding so it fits better */
+      .hero-left {
+        padding: 56px 5% 34px;
+        min-width: auto;
+      }
+
+      .hero-left .bigname {
+        font-size: 34px;
+      }
+
+      .hero-left p.intro {
+        max-width: 100%;
+      }
+
+      /* make mobile menu slightly narrower on very small screens */
+      .mobile-menu {
+        width: min(94vw, 360px);
+        padding: 20px;
+      }
+    }
+
+    @media (max-width:420px) {
+      .hero-left {
+        padding: 44px 5% 28px;
+      }
+
+      .hero-left .bigname {
+        font-size: 30px;
+      }
+
+      :root {
+        --nav-height: 56px;
+      }
+
+      /* fallback on very tiny screens */
+    }
+
+    /* subtle reveal animations */
+    .fade-el {
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all .6s cubic-bezier(.2, .9, .2, 1);
+    }
+
+    .fade-el.show {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* small helpful tweaks for accessibility focus outlines */
+    a:focus,
+    button:focus {
+      outline-offset: 3px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="frame">
+
+    <!-- NAV / top bar -->
+    <header class="site-bar" role="banner" aria-label="Top Navigation">
+      <div class="bar-inner" role="navigation" aria-label="Main navigation">
+        <div class="brand">NAMYA.GANDHI</div>
+
+        <div class="navlinks" id="navlinks">
+          <a href="#home" class="active">HOME</a>
+          <a href="#about">ABOUT</a>
+          <a href="#work">WORKS</a>
+          <a href="#contact">CONTACT</a>
+        </div>
+
+        <!-- Hamburger for mobile -->
+        <button class="hamburger" id="hamburgerBtn" aria-controls="mobileMenu" aria-expanded="false"
+          aria-label="Open menu">
+          <i class="fa fa-bars" aria-hidden="true"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Mobile sliding menu -->
+    <div id="mobileMenu" class="mobile-menu" role="dialog" aria-modal="true" aria-labelledby="mobileMenuTitle"
+      aria-hidden="true">
+      <button class="close-btn" id="menuCloseBtn" aria-label="Close menu"><i class="fa fa-times"
+          aria-hidden="true"></i></button>
+      <h3 id="mobileMenuTitle" style="margin:0; font-weight:900;">Menu</h3>
+
+      <nav aria-label="Mobile primary">
+        <a href="#home" class="mobile-link">HOME</a>
+        <a href="#about" class="mobile-link">ABOUT</a>
+        <a href="#work" class="mobile-link">WORKS</a>
+        <a href="#contact" class="mobile-link">CONTACT</a>
+      </nav>
+
+      <div style="margin-top:auto; font-size:.95rem; color:#666;">
+        <div style="margin-bottom:8px;">Contact</div>
+        <a href="mailto:namya.gandhi31@gmail.com"
+          style="display:inline-block; font-weight:700; color:#111;">namya.gandhi31@gmail.com</a>
+      </div>
+    </div>
+
+    <div id="menuOverlay" class="menu-overlay" tabindex="-1" aria-hidden="true"></div>
+
+    <!-- HERO -->
+    <main>
+      <section id="home" class="hero" aria-label="Intro hero" data-aos="fade-up">
+        <div class="hero-left" id="heroLeft">
+          <div class="dots" aria-hidden="true"></div>
+          <div class="eyebrow">MY NAME IS</div>
+          <h1 class="bigname">NAMYA GANDHI</h1>
+          <div class="role">I'M A GRAPHIC & UI/UX DESIGNER</div>
+          <p class="intro">I craft brand identities and human-centered interfaces — balancing bold visuals with usable
+            product design across web and mobile.</p>
+
+          <div class="cta">
+            <a href="#work" class="btn btn-outline-light"
+              style="border-color:rgba(255,255,255,0.12); color:#fff; font-weight:700;">View Work</a>
+            <a href="#contact" class="btn" style="background:var(--accent); color:#111; font-weight:800;">Contact</a>
+          </div>
+        </div>
+
+        <div class="hero-right" role="img" aria-label="Portrait area">
+          <div class="hero-photo" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about" class="about fade-el" data-aos="fade-right">
+        <div class="left">
+          <!-- <div class="back-block" aria-hidden="true"></div> -->
+          <div class="portrait" aria-hidden="true"></div>
+          <div class="accent-circles" aria-hidden="true">
+            <div class="a"></div>
+            <div class="a" style="width:10px;height:10px"></div>
+          </div>
+        </div>
+
+        <div class="text">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="color:var(--muted); font-weight:700; text-transform:lowercase;">who am i</div>
+            <svg class="zigzag" width="72" height="18" viewBox="0 0 72 18" fill="none"
+              xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M0 16L8 4L16 16L24 4L32 16L40 4L48 16L56 4L64 16L72 4" stroke="#d6d6d6" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+
+          <h3 style="margin-top:12px; font-weight:900; letter-spacing:.6px;">HELLO</h3>
+          <p>I’m Namya — a Graphic & UI/UX designer focused on clean visual systems, accessible interfaces and memorable
+            branding. I design end-to-end experiences: brand concept, UI, prototypes and visual assets.</p>
+
+          <div class="dot-grid" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <!-- WORK -->
+      <section id="work" class="work" data-aos="fade-up">
+        <div class="header">
+          <h2>MY WORK</h2>
+          <p> UI/UX, Branding, and Graphic Design Projects</p>
+        </div>
+
+        <div id="workCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-pause="hover">
+          <div class="carousel-inner">
+
+            <div class="carousel-item active">
+              <div class="work-card mx-auto" style="max-width:900px;">
+                <img src="post/grid1.jpg" alt="Aurora Project">
+                <div class="work-info">
+                  <h5>Grid View 1</h5>
+                  <p>Created a modern and grid system for a brand.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="carousel-item">
+              <div class="work-card mx-auto" style="max-width:900px;">
+                <img src="post/grid2.jpg" alt="Flow App">
+                <div class="work-info">
+                  <h5>Grid View 2</h5>
+                  <p>Created a modern and grid system for a brand.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="carousel-item">
+              <div class="work-card mx-auto" style="max-width:900px;">
+                <img src="post/grid3.jpg" alt="Nova Branding">
+                <div class="work-info">
+                  <h5>Grid View 3</h5>
+                  <p>Created a modern and grid system for a brand.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="carousel-item">
+              <div class="work-card mx-auto" style="max-width:900px;">
+                <img src="post/grid4.jpg" alt="Citrus Packaging">
+                <div class="work-info">
+                  <h5>Grid View 4</h5>
+                  <p>Created a modern and grid system for a brand.</p>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="work-card mx-auto" style="max-width:900px;">
+                <img src="post/grid5.jpg" alt="Citrus Packaging">
+                <div class="work-info">
+                  <h5>Grid View 5</h5>
+                  <p>Created a modern and grid system for a brand.</p>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="work-card mx-auto" style="max-width:900px;">
+                <img src="post/grid6.jpg" alt="Citrus Packaging">
+                <div class="work-info">
+                  <h5>Grid View 6</h5>
+                  <p>Created a modern and grid system for a brand.</p>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="work-card mx-auto" style="max-width:900px;">
+                <img src="post/post1.jpg" alt="Citrus Packaging">
+                <div class="work-info">
+                  <h5>Post</h5>
+                  <p>Created a post design for a brand.</p>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="work-card mx-auto" style="max-width:900px;">
+                <img src="post/post2.jpg" alt="Citrus Packaging">
+                <div class="work-info">
+                  <h5>Post</h5>
+                  <p>Created a post design for a brand.</p>
+                </div>
+              </div>
+            </div>
+              <div class="carousel-item">
+              <div class="work-card mx-auto" style="max-width:900px;">
+                <img src="post/post3.jpg" alt="Citrus Packaging">
+                <div class="work-info">
+                  <h5>Post</h5>
+                  <p>Created a post design for a brand.</p>
+                </div>
+              </div>
+            </div>
+              <div class="carousel-item">
+              <div class="work-card mx-auto" style="max-width:900px;">
+                <img src="post/post4.jpg" alt="Citrus Packaging">
+                <div class="work-info">
+                  <h5>Post</h5>
+                  <p>Created a post design for a brand.</p>
+                </div>
+              </div>
+            </div>
+              <div class="carousel-item">
+              <div class="work-card mx-auto" style="max-width:900px;">
+                <img src="post/post5.jpg" alt="Citrus Packaging">
+                <div class="work-info">
+                  <h5>Post</h5>
+                  <p>Created a post design for a brand.</p>
+                </div>
+              </div>
+            </div>
+              <div class="carousel-item">
+              <div class="work-card mx-auto" style="max-width:900px;">
+                <img src="post/post6.jpg" alt="Citrus Packaging">
+                <div class="work-info">
+                  <h5>Post</h5>
+                  <p>Created a post design for a brand.</p>
+                </div>
+              </div>
+            </div>
+              <div class="carousel-item">
+              <div class="work-card mx-auto" style="max-width:900px;">
+                <img src="post/post7.jpg" alt="Citrus Packaging">
+                <div class="work-info">
+                  <h5>Post</h5>
+                  <p>Created a post design for a brand.</p>
+                </div>
+              </div>
+            </div>
+              <div class="carousel-item">
+              <div class="work-card mx-auto" style="max-width:900px;">
+                <img src="post/post8.jpg" alt="Citrus Packaging">
+                <div class="work-info">
+                  <h5>Post</h5>
+                  <p>Created a post design for a brand.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <button class="carousel-control-prev" type="button" data-bs-target="#workCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#workCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+
+          <div class="carousel-indicators">
+  <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="0" class="active"></button>
+  <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="1"></button>
+  <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="2"></button>
+  <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="3"></button>
+  <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="4"></button>
+  <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="5"></button>
+  <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="6"></button>
+  <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="7"></button>
+  <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="8"></button>
+  <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="9"></button>
+  <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="10"></button>
+  <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="11"></button>
+  <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="12"></button>
+  <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="13"></button>
+  <button type="button" data-bs-target="#workCarousel" data-bs-slide-to="14"></button>
+</div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="contact fade-el" style="padding-top:48px;" data-aos="fade-up">
+        <div style="max-width:780px; margin:0 auto; text-align:center;">
+          <h3 style="font-weight:900; margin-bottom:8px;">Let's build something beautiful</h3>
+          <p style="color:var(--muted); margin-bottom:18px; max-width:620px; margin-left:auto; margin-right:auto;">
+            Available for freelance and collaborations. Feel free to reach out for project inquiries .
+          </p>
+
+          <div class="cta" style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:16px;">
+            <a href="mailto:namya.gandhi31@gmail.com" class="btn btn-dark"
+              style="background:#111; color:var(--accent); font-weight:800; padding:10px 20px;">
+              Email — namya.gandhi31@gmail.com
+            </a>
+
+            <a href="namyaCV.pdf" download="Namya_Gandhi_CV.pdf" class="btn btn-outline-secondary"
+              style="font-weight:700; padding:10px 20px;">
+              Download CV
+            </a>
+          </div>
+
+          <div class="socials" style="display:flex; justify-content:center; gap:14px; margin-top:22px;">
+            <a href="https://www.linkedin.com/in/namya-gandhi-8702b0244/"
+              style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:rgba(0,0,0,0.05);color:#111;"><i
+                class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+      </section>
+
+      <footer class="site-foot" style="position:relative;" data-aos="fade-up">
+        <div class="dots" aria-hidden="true"></div>
+        <div style="max-width:980px; margin:0 auto;">
+          <div style="font-weight:700; margin-bottom:6px;">Namya Gandhi — Graphic & UI/UX Designer</div>
+          <div style="color:#bdbdbd;">© <span id="thisYear"></span> Namya Gandhi</div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- AOS JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+  <script>
+    // ====== Small helpers and initial state ======
+    document.getElementById('thisYear').textContent = new Date().getFullYear();
+
+    // ====== AOS init ======
+    AOS.init({ once: true, duration: 700, easing: 'ease-out-cubic' });
+
+    // ====== Helper: sync CSS var --nav-height to actual header height
+    function syncNavHeight() {
+      const header = document.querySelector('.site-bar');
+      if (!header) return;
+      const h = header.offsetHeight || 68;
+      document.documentElement.style.setProperty('--nav-height', h + 'px');
+      const hero = document.querySelector('.hero');
+      if (hero) {
+        hero.style.minHeight = `calc(100vh - ${h}px)`; // immediate inline fallback
+      }
+    }
+    window.addEventListener('load', syncNavHeight);
+    window.addEventListener('resize', () => {
+      clearTimeout(window._navResizeTimer);
+      window._navResizeTimer = setTimeout(syncNavHeight, 80);
+    });
+    window.addEventListener('orientationchange', () => setTimeout(syncNavHeight, 160));
+
+    // ====== Mobile menu logic (slide-from-right) ======
+    const hamburger = document.getElementById('hamburgerBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuOverlay = document.getElementById('menuOverlay');
+    const menuClose = document.getElementById('menuCloseBtn');
+    const firstMobileLink = mobileMenu ? mobileMenu.querySelector('.mobile-link') : null;
+
+    function openMenu() {
+      if (!mobileMenu) return;
+      mobileMenu.classList.add('open');
+      menuOverlay.classList.add('show');
+      mobileMenu.setAttribute('aria-hidden', 'false');
+      hamburger.setAttribute('aria-expanded', 'true');
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+      if (firstMobileLink) firstMobileLink.focus();
+      syncNavHeight();
+    }
+    function closeMenu() {
+      if (!mobileMenu) return;
+      mobileMenu.classList.remove('open');
+      menuOverlay.classList.remove('show');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      hamburger.focus();
+      syncNavHeight();
+    }
+
+    if (hamburger) hamburger.addEventListener('click', openMenu);
+    if (menuClose) menuClose.addEventListener('click', closeMenu);
+    if (menuOverlay) menuOverlay.addEventListener('click', closeMenu);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mobileMenu && mobileMenu.classList.contains('open')) closeMenu();
+    });
+
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        setTimeout(closeMenu, 60);
+      });
+    });
+
+    // ====== Fade-in on scroll using IntersectionObserver ======
+    const fadeEls = document.querySelectorAll('.fade-el');
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('show'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    fadeEls.forEach(el => observer.observe(el));
+
+    // ====== Hero parallax (subtle) ======
+    const heroRight = document.querySelector('.hero-right');
+    const heroPhoto = document.querySelector('.hero-photo');
+    if (heroRight && heroPhoto) {
+      heroRight.addEventListener('mousemove', (e) => {
+        const rect = heroRight.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width;
+        const py = (e.clientY - rect.top) / rect.height;
+        const tx = (px - 0.5) * 10;
+        const ty = (py - 0.5) * 8;
+        heroPhoto.style.transform = `scale(1.02) translate(${tx}px, ${ty}px)`;
+      });
+      heroRight.addEventListener('mouseleave', () => {
+        heroPhoto.style.transform = 'scale(1) translate(0,0)';
+      });
+    }
+
+    // small nav active toggle on click (desktop)
+    document.querySelectorAll('.navlinks a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.querySelectorAll('.navlinks a').forEach(x => x.classList.remove('active'));
+        link.classList.add('active');
+      });
+    });
+
+    // preload images
+    (function preload() {
+      const imgs = ['namya.jpg'];
+      imgs.forEach(src => {
+        const i = new Image();
+        i.src = src;
+      });
+    })();
+
+    // ensure nav height is correct shortly after DOM paints (handles fonts)
+    setTimeout(syncNavHeight, 120);
+
+    // ====== DOWNLOAD CV logic ======
+    // Change the `pdfPath` below to wherever you host the PDF. By default it expects: /assets/Namya_Gandhi_CV.pdf
+    const pdfPath = 'assets/Namya_Gandhi_CV.pdf';
+    const cvDirect = document.getElementById('cvDirect');
+    const cvFetchBtn = document.getElementById('cvFetchBtn');
+    const cvStatus = document.getElementById('cvStatus');
+
+    // Simple status helper
+    function setStatus(msg, isError) {
+      cvStatus.textContent = msg;
+      cvStatus.style.color = isError ? '#c0392b' : 'var(--muted)';
+    }
+
+    // If the direct download attribute works, this is simplest. The fallback fetch attempts to download via blob if the hosting setup requires it.
+    cvFetchBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      setStatus('Preparing download...');
+      try {
+        // fetch the file as blob
+        const r = await fetch(pdfPath, { cache: 'no-store' });
+        if (!r.ok) throw new Error(`Could not fetch (${r.status})`);
+        const blob = await r.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Namya_Gandhi_CV.pdf';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        setStatus('Download started — check your downloads folder.');
+      } catch (err) {
+        console.error(err);
+        setStatus('Download failed. Make sure the PDF exists at "' + pdfPath + '" and that you are serving the site via HTTP (not file://).', true);
+      }
+    });
+
+    // Accessibility: if direct anchor is used, and browser blocks download, we keep the fetch button as backup.
+    cvDirect.setAttribute('href', pdfPath);
+    cvDirect.setAttribute('download', 'Namya_Gandhi_CV.pdf');
+
+  </script>
+</body>
+
+</html>
